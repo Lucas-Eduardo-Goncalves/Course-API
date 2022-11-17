@@ -10,6 +10,15 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
+CREATE TABLE "verifyusers" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "verifyusers_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "teachers" (
     "id" TEXT NOT NULL,
     "user_id" TEXT,
@@ -44,6 +53,9 @@ CREATE TABLE "modules" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "verifyusers_user_id_key" ON "verifyusers"("user_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "teachers_user_id_key" ON "teachers"("user_id");
 
 -- CreateIndex
@@ -53,7 +65,10 @@ CREATE UNIQUE INDEX "courses_name_key" ON "courses"("name");
 CREATE UNIQUE INDEX "modules_name_key" ON "modules"("name");
 
 -- AddForeignKey
+ALTER TABLE "verifyusers" ADD CONSTRAINT "verifyusers_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "teachers" ADD CONSTRAINT "teachers_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "courses" ADD CONSTRAINT "courses_teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "courses" ADD CONSTRAINT "courses_teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id") ON DELETE CASCADE ON UPDATE CASCADE;
