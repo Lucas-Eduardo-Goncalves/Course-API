@@ -1,6 +1,6 @@
 import { Router } from "express";
-
 import { ensureTeacher } from "../shared/middlewares/ensureTeacher";
+import { ensureAuthenticated } from "../shared/middlewares/ensureAuthenticate";
 
 import { listCoursesController } from "../modules/courses/useCases/listCoursesUseCase";
 import { listUnicCourseController } from "../modules/courses/useCases/listUnicCourseUseCase";
@@ -10,6 +10,7 @@ import { deleteCourseController } from "../modules/courses/useCases/deleteCourse
 import { updateCourseController } from "../modules/courses/useCases/updateCourseUseCase";
 
 const coursesRoutes = Router();
+coursesRoutes.use(ensureAuthenticated);
 
 coursesRoutes.get("/", (request, response) => {
   return listCoursesController.handle(request, response);

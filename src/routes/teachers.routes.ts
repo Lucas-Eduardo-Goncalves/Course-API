@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { ensureAuthenticated } from "../shared/middlewares/ensureAuthenticate";
 
 import { listTeachersController } from "../modules/teachers/useCases/listTeachersUseCase";
 import { listUnicTeacherController } from "../modules/teachers/useCases/listUnicTeacherUseCase";
@@ -6,6 +7,7 @@ import { createTeacherController } from "../modules/teachers/useCases/createTeac
 import { deleteTeacherController } from "../modules/teachers/useCases/deleteTeacherUseCase";
 
 const teachersRoutes = Router();
+teachersRoutes.use(ensureAuthenticated);
 
 teachersRoutes.get("/", (request, response) => {
   return listTeachersController.handle(request, response);

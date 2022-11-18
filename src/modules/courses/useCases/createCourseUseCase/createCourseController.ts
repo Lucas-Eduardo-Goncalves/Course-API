@@ -6,7 +6,9 @@ class CreateCourseController {
   constructor(private createCourseUseCase: CreateCourseUseCase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, description, duration, teacher_id } = request.body;
+    const { name, description, duration } = request.body;
+    const teacher_id = response.locals.teacher_id;
+
     await this.createCourseUseCase.execute({
       name,
       description,

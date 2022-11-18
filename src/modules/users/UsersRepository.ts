@@ -8,8 +8,8 @@ import type {
 } from "./IUsersRepository";
 
 class UsersRepository implements IUsersRepository {
-  async create(data: ICreateUserDTO): Promise<void> {
-    await db.users.create({ data });
+  async create(data: ICreateUserDTO): Promise<Users> {
+    return await db.users.create({ data });
   }
 
   async list(): Promise<Users[]> {

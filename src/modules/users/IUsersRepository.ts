@@ -13,7 +13,7 @@ export interface IUpdateUserDTO {
 }
 
 export interface IUsersRepository {
-  create: (userData: ICreateUserDTO) => Promise<void>;
+  create: (userData: ICreateUserDTO) => Promise<Users>;
   list: () => Promise<Users[]>;
   update: (id: string, userData: IUpdateUserDTO) => Promise<void>;
   findById: (userId: string) => Promise<Users | null>;

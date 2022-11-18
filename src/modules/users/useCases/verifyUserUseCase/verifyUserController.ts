@@ -7,9 +7,9 @@ class VerifyUserController {
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { token } = request.body;
-    await this.verifyUserUseCase.execute({ token });
+    const res = await this.verifyUserUseCase.execute({ token });
 
-    return response.status(201).send();
+    return response.json(res);
   }
 }
 

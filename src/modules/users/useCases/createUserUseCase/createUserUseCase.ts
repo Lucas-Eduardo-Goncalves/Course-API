@@ -3,6 +3,7 @@ import { AppError } from "../../../../shared/error/AppError";
 import sgMail from "@sendgrid/mail";
 
 import type { ICreateUserDTO, IUsersRepository } from "../../IUsersRepository";
+import { sign } from "jsonwebtoken";
 
 class CreateUserUseCase {
   constructor(private usersRepository: IUsersRepository) {}
@@ -23,18 +24,25 @@ class CreateUserUseCase {
 
     const passwordHash = await hash(password, 8);
 
-    await this.usersRepository.create({
+    const res = await this.usersRepository.create({
       name,
       email,
       password: passwordHash,
     });
+
+    const token = sign({}, "fe9cee841ee513c647796fa0019e498a", {
+      subject: res.id,
+      expiresIn: "1d",
+    });
+
+    console.log(token);
 
     const msg: sgMail.MailDataRequired = {
       to: email,
       from: "lucasgoncalvesgithub@gmail.com",
       subject: "Confirme o seu email",
       text: "Confirme o seu email para melhorar sua experiencia",
-      html: "<a href='https://google.com'>Confirme aqui</a>",
+      html: `<p>your token: ${token}</p><a href='https://google.com'>Confirme aqui</a>`,
     };
 
     sgMail.send(msg).then(

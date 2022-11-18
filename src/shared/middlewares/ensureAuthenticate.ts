@@ -33,7 +33,7 @@ export async function ensureAuthenticated(
       throw new AppError("Invalid token!", 401);
     }
 
-    response.locals.userId = user.id;
+    response.locals.user_id = user.id;
 
     next();
   } catch (err) {
